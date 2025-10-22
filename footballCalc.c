@@ -45,15 +45,44 @@ void calcCombo(int remaining, int td8, int td7, int td6, int fg3, int safety2, i
 int main() {
     int target;
     int comboCount = 0;
+    int scanResult;
 
-    while (target != 1) {
+    while (1) {
         printf("\nEnter the NFL score (Enter 1 to stop): ");
-        scanf("%d", &target);
-        if (target==1) {
+        scanResult = scanf("%d", &target);
+        
+        // Check if scanf successfully read an integer
+        if (scanResult != 1) {
+            printf("Error: Invalid input. Please enter a valid number.\n");
+            // Clear input buffer
+            while (getchar() != '\n');
+            continue;
+        }
+
+        // Check for exit condition
+        if (target == 1) {
             return 0;
         }
+
+        // Validate input
+        if (target <= 0) {
+            printf("Error: Score must be a positive number.\n");
+            continue;
+        }
+
+        // Check for unreasonably large scores to prevent stack overflow
+        if (target > 100) {
+            printf("Error: Score is too large. Please enter a score less than 100.\n");
+            continue;
+        }
+
         printf("Possible combinations of scoring plays if a team's score is %d", target);
+        comboCount = 0;  // Reset combo count for each new calculation
         calcCombo(target, 0,0,0,0,0,8, &comboCount);
+        
+        if (comboCount == 0) {
+            printf("\nNo possible combinations found for this score.\n");
+        }
         printf("\n");
     }
 
