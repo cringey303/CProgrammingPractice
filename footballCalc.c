@@ -1,26 +1,15 @@
 #include <stdio.h>
 
-int main() {
-    printf("Enter the NFL score (Enter 1 to stop): ");
-    int target;
-    scanf("%d", &target);
-
-    int comboCount = 0;
-    if (target == 1) {
-        return 0;
-    } else {
-        printf("Possible combinations of scoring plays if a team’s score is %d", &target);
-        calcCombo(target, 0,0,0,0,0,8, &comboCount);
-    }
-
-    return 0;
+void printCombo(int td8, int td7, int td6, int fg3, int safety2) {
+    printf("\n%d TD + 2pt, %d TD + FG, %d TD, %d 3pt FG, %d Safety", td8, td7, td6, fg3, safety2);
 }
 
 // recursive function to calculate and print all score combinations
 void calcCombo(int remaining, int td8, int td7, int td6, int fg3, int safety2, int minScore, int* comboCount) {
+    // base cases
     // no score remaining
     if (remaining == 0) {
-        *comboCount++;
+        (*comboCount)++;
         printCombo(td8, td7, td6, fg3, safety2);
         return;
     }
@@ -53,6 +42,22 @@ void calcCombo(int remaining, int td8, int td7, int td6, int fg3, int safety2, i
 
 }
 
-void printCombo(int td8, int td7, int td6, int fg3, int safety2) {
-    printf("%d TD + 2pt, %d TD + FG, %d TD, %d 3pt FG, %d Safety", &td8, &td7, &td6, &fg3, &safety2);
+int main() {
+    int target;
+    int comboCount = 0;
+
+    while (target != 1) {
+        printf("\nEnter the NFL score (Enter 1 to stop): ");
+        scanf("%d", &target);
+        if (target==1) {
+            return 0;
+        }
+        printf("Possible combinations of scoring plays if a team's score is %d", target);
+        calcCombo(target, 0,0,0,0,0,8, &comboCount);
+        printf("\n");
+    }
+
+    return 0;
+
 }
+
